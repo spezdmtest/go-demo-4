@@ -3,20 +3,18 @@ package main
 import "fmt"
 
 func main() {
-	a := [4]int{1, 2, 3, 4}
-	reverse(&a)
-	fmt.Println(a)
-	// a := 5
-	// double(&a)
-	// fmt.Println(a)
-}
-func reverse(arr *[4]int) {
-	for index, value := range *arr {
-		arr[len(arr)-1-index] = value
-	}
-
+	login := promptData("Введіть логін")
+	password := promptData("Введіть пароль")
+	url := promptData("Введіть url")
 }
 
-// func double(num *int) {
-// 	*num = *num * 2
-// }
+func promptData(prompt string) string {
+	fmt.Print(prompt)
+	var res string
+	fmt.Scan(&res)
+	return res
+}
+
+func outputPassword(login, password, url string) {
+	fmt.Println(login, password, url)
+}
