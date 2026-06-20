@@ -1,6 +1,9 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"math/rand/v2"
+)
 
 type account struct {
 	login    string
@@ -8,22 +11,10 @@ type account struct {
 	url      string
 }
 
+var letterRunes = []rune("abcdefghijklmnopgrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890-*!")
+
 func main() {
-	str := "Привіт!)"
-	for _, ch := range str {
-		fmt.Println(ch, string(ch))
-	}
-
-	str1 := []rune("Привіт!)")
-	for _, ch := range str1 {
-		fmt.Println(ch, string(ch))
-	}
-
-	str2 := []int32("Привіт!)")
-	for _, ch := range string(str2) {
-		fmt.Println(ch, string(ch))
-	}
-
+	fmt.Println(generatePassword(12))
 	login := promptData("Введіть логін")
 	password := promptData("Введіть пароль")
 	url := promptData("Введіть url")
@@ -43,6 +34,21 @@ func main() {
 	}
 
 	outputPassword(&myAccount)
+
+	// str := "Привіт!)"
+	// for _, ch := range str {
+	// 	fmt.Println(ch, string(ch))
+	// }
+
+	// str1 := []rune("Привіт!)")
+	// for _, ch := range str1 {
+	// 	fmt.Println(ch, string(ch))
+	// }
+
+	// str2 := []int32("Привіт!)")
+	// for _, ch := range string(str2) {
+	// 	fmt.Println(ch, string(ch))
+	// }
 }
 
 func promptData(prompt string) string {
@@ -55,4 +61,12 @@ func promptData(prompt string) string {
 func outputPassword(acc *account) {
 	fmt.Println(acc)
 	fmt.Println(acc.login, acc.password, acc.url)
+}
+
+func generatePassword(n int) string {
+	res := make([]rune, n)
+	for i := range res {
+		res[i] = letterRunes[rand.IntN(len(letterRunes))]
+	}
+	return string(res)
 }
