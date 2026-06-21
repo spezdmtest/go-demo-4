@@ -11,7 +11,7 @@ type account struct {
 	url      string
 }
 
-var letterRunes = []rune("abcdefghijklmnopgrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890-*!")
+var letterRunes = []rune("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890-*!")
 
 func main() {
 	fmt.Println(generatePassword(12))
