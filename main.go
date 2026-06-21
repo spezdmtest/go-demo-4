@@ -11,12 +11,25 @@ type account struct {
 	url      string
 }
 
+func (acc *account) outputPassword() {
+	fmt.Println(*acc)
+	fmt.Println(acc.login, acc.password, acc.url)
+}
+
+func (acc *account) generatePassword(n int) {
+	res := make([]rune, n)
+	for i := range res {
+		res[i] = letterRunes[rand.IntN(len(letterRunes))]
+	}
+	acc.password = string(res)
+}
+
 var letterRunes = []rune("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890-*!")
 
 func main() {
 	fmt.Println(generatePassword(12))
 	login := promptData("Введіть логін")
-	password := promptData("Введіть пароль")
+	//password := promptData("Введіть пароль")
 	url := promptData("Введіть url")
 
 	// account1 := account{
@@ -28,12 +41,13 @@ func main() {
 	// account1 := account{}
 
 	myAccount := account{
-		password: password,
-		login:    login,
-		url:      url,
+		login: login,
+		url:   url,
 	}
-
-	outputPassword(&myAccount)
+	myAccount.generatePassword(12)
+	myAccount.outputPassword()
+	// fmt.Println(myAccount)
+	// outputPassword(&myAccount)
 
 	// str := "Привіт!)"
 	// for _, ch := range str {
