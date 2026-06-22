@@ -24,12 +24,21 @@ func (acc *account) generatePassword(n int) {
 	acc.password = string(res)
 }
 
+func newAccount(login, password, url string) *account {
+	return &account{
+		url:      url,
+		login:    login,
+		password: password,
+	}
+
+}
+
 var letterRunes = []rune("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890-*!")
 
 func main() {
 	fmt.Println(generatePassword(12))
 	login := promptData("Введіть логін")
-	//password := promptData("Введіть пароль")
+	password := promptData("Введіть пароль")
 	url := promptData("Введіть url")
 
 	// account1 := account{
@@ -40,10 +49,7 @@ func main() {
 
 	// account1 := account{}
 
-	myAccount := account{
-		login: login,
-		url:   url,
-	}
+	myAccount := newAccount(login, password, url)
 	myAccount.generatePassword(12)
 	myAccount.outputPassword()
 	// fmt.Println(myAccount)
