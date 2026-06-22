@@ -50,7 +50,7 @@ func main() {
 	// account1 := account{}
 
 	myAccount := newAccount(login, password, url)
-	myAccount.generatePassword(12)
+	//myAccount.generatePassword(12)
 	myAccount.outputPassword()
 	// fmt.Println(myAccount)
 	// outputPassword(&myAccount)
