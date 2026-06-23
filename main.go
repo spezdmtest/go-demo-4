@@ -26,7 +26,10 @@ func (acc *account) generatePassword(n int) {
 	acc.password = string(res)
 }
 
+// 1. якщо лоніна немає, то помилка
+// 2. якщо немає пароля, то генеруємо
 func newAccount(login, password, urlString string) (*account, error) {
+	fmt.Println(login, password, urlString)
 	_, err := url.ParseRequestURI(urlString)
 	if err != nil {
 		return nil, errors.New("INVALID_URL")
@@ -84,7 +87,7 @@ func main() {
 func promptData(prompt string) string {
 	fmt.Print(prompt + ": ")
 	var res string
-	fmt.Scan(&res)
+	fmt.Scanln(&res)
 	return res
 }
 
