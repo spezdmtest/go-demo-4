@@ -37,7 +37,6 @@ func newAccount(login, password, urlString string) (*account, error) {
 		login:    login,
 		password: password,
 	}, nil
-
 }
 
 var letterRunes = []rune("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890-*!")
