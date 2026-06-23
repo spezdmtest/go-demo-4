@@ -29,17 +29,23 @@ func (acc *account) generatePassword(n int) {
 // 1. якщо лоніна немає, то помилка
 // 2. якщо немає пароля, то генеруємо
 func newAccount(login, password, urlString string) (*account, error) {
-	fmt.Println(login, password, urlString)
+	if login == "" {
+		return nil, errors.New("INVALID_")
+	}
 	_, err := url.ParseRequestURI(urlString)
 	if err != nil {
 		return nil, errors.New("INVALID_URL")
 
 	}
-	return &account{
+	newAcc := &account{
 		url:      urlString,
 		login:    login,
 		password: password,
-	}, nil
+	}
+	if password == "" {
+		newAcc.generatePassword(12)
+	}
+	return newAcc, nil
 }
 
 var letterRunes = []rune("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890-*!")
@@ -60,10 +66,10 @@ func main() {
 
 	myAccount, err := newAccount(login, password, url)
 	if err != nil {
-		fmt.Println("Невірний формат URL")
+		fmt.Println("Невірний формат URL або Login")
 		return
 	}
-	myAccount.generatePassword(12)
+	// myAccount.generatePassword(12)
 	myAccount.outputPassword()
 	// fmt.Println(myAccount)
 	// outputPassword(&myAccount)
