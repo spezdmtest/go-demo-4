@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"math/rand/v2"
 	"net/url"
+	"time"
 )
 
 type account struct {
@@ -13,12 +14,18 @@ type account struct {
 	url      string
 }
 
-func (acc *account) outputPassword() {
-	fmt.Println(*acc)
-	fmt.Println(acc.login, acc.password, acc.url)
+type accountWithTimeStamp struct {
+	createdAd time.Time
+	updatedAd time.Time
+	account
 }
 
-func (acc *account) generatePassword(n int) {
+func (acc *accountWithTimeStamp) outputPassword() {
+	fmt.Println(*acc)
+	// fmt.Println(acc.login, acc.password, acc.url)
+}
+
+func (acc *accountWithTimeStamp) generatePassword(n int) {
 	res := make([]rune, n)
 	for i := range res {
 		res[i] = letterRunes[rand.IntN(len(letterRunes))]
@@ -26,9 +33,7 @@ func (acc *account) generatePassword(n int) {
 	acc.password = string(res)
 }
 
-// 1. якщо лоніна немає, то помилка
-// 2. якщо немає пароля, то генеруємо
-func newAccount(login, password, urlString string) (*account, error) {
+func newAccountWithTimeStamp(login, password, urlString string) (*accountWithTimeStamp, error) {
 	if login == "" {
 		return nil, errors.New("INVALID_LOGIN")
 	}
@@ -37,16 +42,42 @@ func newAccount(login, password, urlString string) (*account, error) {
 		return nil, errors.New("INVALID_URL")
 
 	}
-	newAcc := &account{
-		url:      urlString,
-		login:    login,
-		password: password,
+	newAcc := &accountWithTimeStamp{
+		createdAd: time.Now(),
+		updatedAd: time.Now(),
+		account: account{
+			url:      urlString,
+			login:    login,
+			password: password,
+		},
 	}
 	if password == "" {
 		newAcc.generatePassword(12)
 	}
 	return newAcc, nil
 }
+
+// 1. якщо лоніна немає, то помилка
+// 2. якщо немає пароля, то генеруємо
+// func newAccount(login, password, urlString string) (*account, error) {
+// 	if login == "" {
+// 		return nil, errors.New("INVALID_LOGIN")
+// 	}
+// 	_, err := url.ParseRequestURI(urlString)
+// 	if err != nil {
+// 		return nil, errors.New("INVALID_URL")
+
+// 	}
+// 	newAcc := &account{
+// 		url:      urlString,
+// 		login:    login,
+// 		password: password,
+// 	}
+// 	if password == "" {
+// 		newAcc.generatePassword(12)
+// 	}
+// 	return newAcc, nil
+// }
 
 var letterRunes = []rune("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890-*!")
 
@@ -64,7 +95,7 @@ func main() {
 
 	// account1 := account{}
 
-	myAccount, err := newAccount(login, password, url)
+	myAccount, err := newAccountWithTimeStamp(login, password, url)
 	if err != nil {
 		fmt.Println("Невірний формат URL або Login")
 		return
