@@ -1,100 +1,15 @@
 package main
 
 import (
-	"errors"
 	"fmt"
 	"math/rand/v2"
-	"net/url"
-	"time"
 )
-
-type account struct {
-	login    string
-	password string
-	url      string
-}
-
-type accountWithTimeStamp struct {
-	createdAd time.Time
-	updatedAd time.Time
-	account
-}
-
-func (acc *accountWithTimeStamp) outputPassword() {
-	fmt.Println(*acc)
-	// fmt.Println(acc.login, acc.password, acc.url)
-}
-
-func (acc *accountWithTimeStamp) generatePassword(n int) {
-	res := make([]rune, n)
-	for i := range res {
-		res[i] = letterRunes[rand.IntN(len(letterRunes))]
-	}
-	acc.password = string(res)
-}
-
-func newAccountWithTimeStamp(login, password, urlString string) (*accountWithTimeStamp, error) {
-	if login == "" {
-		return nil, errors.New("INVALID_LOGIN")
-	}
-	_, err := url.ParseRequestURI(urlString)
-	if err != nil {
-		return nil, errors.New("INVALID_URL")
-
-	}
-	newAcc := &accountWithTimeStamp{
-		createdAd: time.Now(),
-		updatedAd: time.Now(),
-		account: account{
-			url:      urlString,
-			login:    login,
-			password: password,
-		},
-	}
-	if password == "" {
-		newAcc.generatePassword(12)
-	}
-	return newAcc, nil
-}
-
-// 1. якщо лоніна немає, то помилка
-// 2. якщо немає пароля, то генеруємо
-// func newAccount(login, password, urlString string) (*account, error) {
-// 	if login == "" {
-// 		return nil, errors.New("INVALID_LOGIN")
-// 	}
-// 	_, err := url.ParseRequestURI(urlString)
-// 	if err != nil {
-// 		return nil, errors.New("INVALID_URL")
-
-// 	}
-// 	newAcc := &account{
-// 		url:      urlString,
-// 		login:    login,
-// 		password: password,
-// 	}
-// 	if password == "" {
-// 		newAcc.generatePassword(12)
-// 	}
-// 	return newAcc, nil
-// }
-
-var letterRunes = []rune("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890-*!")
 
 func main() {
 	//fmt.Println(generatePassword(12))
 	login := promptData("Введіть логін")
 	password := promptData("Введіть пароль")
 	url := promptData("Введіть url")
-
-	// account1 := account{
-	// 	login,
-	// 	"",
-	// 	url,
-	// }
-
-	// account1 := account{}
-
 	myAccount, err := newAccountWithTimeStamp(login, password, url)
 	if err != nil {
 		fmt.Println("Невірний формат URL або Login")
