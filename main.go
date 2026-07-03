@@ -12,7 +12,7 @@ func main() {
 	login := promptData("Введіть логін")
 	password := promptData("Введіть пароль")
 	url := promptData("Введіть url")
-	myAccount, err := account.NewAccountWithTimeStamp(login, password, url)
+	myAccount, err := account.NewAccount(login, password, url)
 	if err != nil {
 		fmt.Println("Невірний формат URL або Login")
 		return
