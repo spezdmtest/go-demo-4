@@ -7,6 +7,10 @@ import (
 )
 
 func main() {
+	createAccount()
+}
+
+func createAccount() {
 	files.ReadFile()
 	files.WriteFile("Привіт! Я файл!!", "file.txt")
 	login := promptData("Введіть логін")
