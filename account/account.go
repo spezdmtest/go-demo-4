@@ -14,23 +14,19 @@ import (
 var letterRunes = []rune("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890-*!")
 
 type Account struct {
-	login    string `json:"login" xml:"test"`
-	password string
-	url      string
-}
-
-type AccountWithTimeStamp struct {
+	login     string `json:"login" xml:"test"`
+	password  string
+	url       string
 	createdAd time.Time
 	updatedAd time.Time
-	Account
 }
 
-func (acc *AccountWithTimeStamp) OutputPassword() {
+func (acc *Account) OutputPassword() {
 	color.Cyan(acc.login)
 	fmt.Println(acc.login, acc.password, acc.url)
 }
 
-func (acc *AccountWithTimeStamp) generatePassword(n int) {
+func (acc *Account) generatePassword(n int) {
 	res := make([]rune, n)
 	for i := range res {
 		res[i] = letterRunes[rand.IntN(len(letterRunes))]
@@ -38,7 +34,7 @@ func (acc *AccountWithTimeStamp) generatePassword(n int) {
 	acc.password = string(res)
 }
 
-func NewAccountWithTimeStamp(login, password, urlString string) (*AccountWithTimeStamp, error) {
+func NewAccount(login, password, urlString string) (*Account, error) {
 	if login == "" {
 		return nil, errors.New("INVALID_LOGIN")
 	}
@@ -47,14 +43,12 @@ func NewAccountWithTimeStamp(login, password, urlString string) (*AccountWithTim
 		return nil, errors.New("INVALID_URL")
 
 	}
-	newAcc := &AccountWithTimeStamp{
+	newAcc := &Account{
 		createdAd: time.Now(),
 		updatedAd: time.Now(),
-		Account: Account{
-			url:      urlString,
-			login:    login,
-			password: password,
-		},
+		url:       urlString,
+		login:     login,
+		password:  password,
 	}
 	field, _ := reflect.TypeOf(newAcc).Elem().FieldByName("login")
 	fmt.Println(string(field.Tag))
