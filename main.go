@@ -55,12 +55,19 @@ func createAccount() {
 		fmt.Println("Невірний формат URL або Login")
 		return
 	}
-	file, err := myAccount.ToBytes()
+
+	vault, err := account.NewVault()
 	if err != nil {
-		fmt.Println("Помилка при конвертації в JSON")
+		fmt.Println("Помилка при створенні сейфу")
 		return
 	}
-	files.WriteFile(file, "data.json")
+	vault.AddAccount(*myAccount)
+	data, err := vault.ToBytes()
+	if err != nil {
+		fmt.Println("Помилка при конвертації сейфу в байти")
+		return
+	}
+	files.WriteFile(data, "data.json")
 }
 
 func promptData(prompt string) string {
