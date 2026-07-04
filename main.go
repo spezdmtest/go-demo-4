@@ -11,8 +11,7 @@ func main() {
 }
 
 func createAccount() {
-	files.ReadFile()
-	files.WriteFile("Привіт! Я файл!!", "file.txt")
+	// files.ReadFile()
 	login := promptData("Введіть логін")
 	password := promptData("Введіть пароль")
 	url := promptData("Введіть url")
@@ -21,7 +20,12 @@ func createAccount() {
 		fmt.Println("Невірний формат URL або Login")
 		return
 	}
-	myAccount.OutputPassword()
+	file, err := myAccount.ToBytes()
+	if err != nil {
+		fmt.Println("Помилка при конвертації в JSON")
+		return
+	}
+	files.WriteFile(file, "data.json")
 }
 
 func promptData(prompt string) string {
