@@ -1,6 +1,7 @@
 package account
 
 import (
+	"encoding/json"
 	"errors"
 	"fmt"
 	"math/rand/v2"
@@ -23,6 +24,14 @@ type Account struct {
 func (acc *Account) OutputPassword() {
 	color.Cyan(acc.Login)
 	fmt.Println(acc.Login, acc.Password, acc.Url)
+}
+
+func (acc *Account) ToBytes() ([]byte, error) {
+	file, err := json.Marshal(acc)
+	if err != nil {
+		return nil, err
+	}
+	return file, nil
 }
 
 func (acc *Account) generatePassword(n int) {
