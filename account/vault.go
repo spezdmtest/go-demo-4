@@ -17,8 +17,9 @@ func NewVault() (*Vault, error) {
 	}, nil
 }
 
-func (vault *Vault) addAccount(acc Account) {
+func (vault *Vault) AddAccount(acc Account) {
 	vault.Accounts = append(vault.Accounts, acc)
+	vault.UpdatedAt = time.Now()
 }
 
 func (acc *Vault) ToBytes() ([]byte, error) {
