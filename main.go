@@ -3,6 +3,8 @@ package main
 import (
 	"demo/password/account"
 	"fmt"
+
+	"github.com/fatih/color"
 )
 
 func main() {
@@ -11,16 +13,17 @@ func main() {
 	// 3. Видалити акаунт
 	// 4. Вихід
 	fmt.Println("___Менеджер паролів___")
+	vault := account.NewVault()
 Menu:
 	for {
 		variant := getMenu()
 		switch variant {
 		case 1:
-			createAccount()
+			createAccount(vault)
 		case 2:
-			findAccount()
+			findAccount(vault)
 		case 3:
-			deleteAccount()
+			deleteAccount(vault)
 		default:
 			break Menu
 		}
@@ -38,13 +41,34 @@ func getMenu() int {
 	return variant
 }
 
-func findAccount() {
+func findAccount(vault *account.Vault) {
+	// URL
+	// Пошук
+	// Вивід
+	url := promptData("Введіть url для пошуку")
+	accounts := vault.FindAccountsByUrl(url)
+	if len(accounts) == 0 {
+		color.Red("Акаунтів не знайдено")
+	}
+	for _, account := range accounts {
+		account.Output()
+	}
 }
 
-func deleteAccount() {
+func deleteAccount(vault *account.Vault) {
+	// URL
+	// Метод видалення у Vault
+	// Вивід видалено чи ні
+	url := promptData("Введіть url для видалення")
+	isDeleted := vault.DeleteAccountByUrl(url)
+	if isDeleted {
+		color.Green("Акаунт успішно видалено")
+	} else {
+		color.Red("Не вдалося видалити акаунт")
+	}
 }
 
-func createAccount() {
+func createAccount(vault *account.Vault) {
 	// files.ReadFile()
 	login := promptData("Введіть логін")
 	password := promptData("Введіть пароль")
@@ -54,7 +78,7 @@ func createAccount() {
 		fmt.Println("Невірний формат URL або Login")
 		return
 	}
-	vault := account.NewVault()
+	vault = account.NewVault()
 	vault.AddAccount(*myAccount)
 }
 

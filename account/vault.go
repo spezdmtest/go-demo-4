@@ -3,6 +3,7 @@ package account
 import (
 	"demo/password/files"
 	"encoding/json"
+	"strings"
 	"time"
 
 	"github.com/fatih/color"
@@ -41,6 +42,38 @@ func (vault *Vault) AddAccount(acc Account) {
 		color.Red("Невдалося зберегти дані: %v", err)
 	}
 	files.WriteFile(data, "data.json")
+}
+
+func (vault *Vault) FindAccountsByUrl(url string) []Account {
+	var accounts []Account
+	for _, account := range vault.Accounts {
+		isMatched := strings.Contains(account.Url, url)
+		if isMatched {
+			accounts = append(accounts, account)
+		}
+	}
+	return accounts
+}
+
+func (vault *Vault) DeleteAccountByUrl(url string) bool {
+	var accounts []Account
+	isDeleted := false
+	for _, account := range vault.Accounts {
+		isMatched := strings.Contains(account.Url, url)
+		if !isMatched {
+			accounts = append(accounts, account)
+			continue
+		}
+		isDeleted = true
+	}
+	vault.Accounts = accounts
+	vault.UpdatedAt = time.Now()
+	data, err := vault.ToBytes()
+	if err != nil {
+		color.Red("Невдалося зберегти дані: %v", err)
+	}
+	files.WriteFile(data, "data.json")
+	return isDeleted
 }
 
 func (acc *Vault) ToBytes() ([]byte, error) {
