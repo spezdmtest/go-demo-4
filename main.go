@@ -2,7 +2,6 @@ package main
 
 import (
 	"demo/password/account"
-	"demo/password/files"
 	"fmt"
 )
 
@@ -55,19 +54,8 @@ func createAccount() {
 		fmt.Println("Невірний формат URL або Login")
 		return
 	}
-
-	vault, err := account.NewVault()
-	if err != nil {
-		fmt.Println("Помилка при створенні сейфу")
-		return
-	}
+	vault := account.NewVault()
 	vault.AddAccount(*myAccount)
-	data, err := vault.ToBytes()
-	if err != nil {
-		fmt.Println("Помилка при конвертації сейфу в байти")
-		return
-	}
-	files.WriteFile(data, "data.json")
 }
 
 func promptData(prompt string) string {
