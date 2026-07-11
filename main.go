@@ -15,6 +15,7 @@ func main() {
 	// 4. Вихід
 	fmt.Println("___Менеджер паролів___")
 	vault := account.NewVault(files.NewJsonDb("data.json"))
+	//  vault := account.NewVault(cloud.NewCloudDb("https://a.com"))
 Menu:
 	for {
 		variant := getMenu()
