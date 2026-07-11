@@ -2,6 +2,7 @@ package main
 
 import (
 	"demo/password/account"
+	"demo/password/files"
 	"fmt"
 
 	"github.com/fatih/color"
@@ -13,7 +14,7 @@ func main() {
 	// 3. Видалити акаунт
 	// 4. Вихід
 	fmt.Println("___Менеджер паролів___")
-	vault := account.NewVault()
+	vault := account.NewVault(files.NewJsonDb("data.json"))
 Menu:
 	for {
 		variant := getMenu()
@@ -41,7 +42,7 @@ func getMenu() int {
 	return variant
 }
 
-func findAccount(vault *account.Vault) {
+func findAccount(vault *account.VaultWithDb) {
 	// URL
 	// Пошук
 	// Вивід
@@ -55,7 +56,7 @@ func findAccount(vault *account.Vault) {
 	}
 }
 
-func deleteAccount(vault *account.Vault) {
+func deleteAccount(vault *account.VaultWithDb) {
 	// URL
 	// Метод видалення у Vault
 	// Вивід видалено чи ні
@@ -68,7 +69,7 @@ func deleteAccount(vault *account.Vault) {
 	}
 }
 
-func createAccount(vault *account.Vault) {
+func createAccount(vault *account.VaultWithDb) {
 	// files.ReadFile()
 	login := promptData("Введіть логін")
 	password := promptData("Введіть пароль")
@@ -78,7 +79,7 @@ func createAccount(vault *account.Vault) {
 		fmt.Println("Невірний формат URL або Login")
 		return
 	}
-	vault = account.NewVault()
+	vault = account.NewVault(files.NewJsonDb("data.json"))
 	vault.AddAccount(*myAccount)
 }
 
