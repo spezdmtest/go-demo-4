@@ -12,7 +12,11 @@ type ByteReader interface {
 	Read() ([]byte, error)
 }
 
+type ByteWriter interface {
+	Write([]byte)
+}
 type Db interface {
+	Read() ([]byte, error)
 	Write([]byte)
 }
 
