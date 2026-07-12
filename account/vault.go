@@ -8,8 +8,11 @@ import (
 	"github.com/fatih/color"
 )
 
-type Db interface {
+type ByteReader interface {
 	Read() ([]byte, error)
+}
+
+type Db interface {
 	Write([]byte)
 }
 
