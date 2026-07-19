@@ -69,7 +69,7 @@ func deleteAccount(vault *account.VaultWithDb) {
 	if isDeleted {
 		color.Green("Акаунт успішно видалено")
 	} else {
-		color.Red("Не вдалося видалити акаунт")
+		output.PrintError("Не вдалося видалити акаунт")
 	}
 }
 
@@ -80,7 +80,7 @@ func createAccount(vault *account.VaultWithDb) {
 	url := promptData("Введіть url")
 	myAccount, err := account.NewAccount(login, password, url)
 	if err != nil {
-		fmt.Println("Невірний формат URL або Login")
+		output.PrintError("Невірний формат URL або Login")
 		return
 	}
 	vault = account.NewVault(files.NewJsonDb("data.json"))
