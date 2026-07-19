@@ -1,6 +1,10 @@
 package output
 
-import "github.com/fatih/color"
+import (
+	"fmt"
+
+	"github.com/fatih/color"
+)
 
 func PrintError(value any) {
 	// fmt.Println(value)
@@ -32,14 +36,27 @@ func PrintError(value any) {
 	// }
 }
 
-func sum[T int32 | float32 | float64 | string](a, b T) T {
+// буває і такий запис
+func sum[T int | string](a, b T) T {
+	switch d := any(a).(type) {
+	case string:
+		fmt.Println(d)
+	}
 	return a + b
 }
 
-func sumInt(a, b int) int {
-	return a + b
-}
+// func sum[T int32 | float32 | float64 | string](a, b T) T {
+// 	return a + b
+// }
 
-func sumFloat32(a, b float32) float32 {
-	return a + b
+// func sumInt(a, b int) int {
+// 	return a + b
+// }
+
+// func sumFloat32(a, b float32) float32 {
+// 	return a + b
+// }
+
+type List[T any] struct {
+	elements []T
 }
