@@ -31,3 +31,15 @@ func PrintError(value any) {
 	// 	color.Red("Невідома помилка: %v")
 	// }
 }
+
+func sum[T int32 | float32 | float64 | string](a, b T) T {
+	return a + b
+}
+
+func sumInt(a, b int) int {
+	return a + b
+}
+
+func sumFloat32(a, b float32) float32 {
+	return a + b
+}
