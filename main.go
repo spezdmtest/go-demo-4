@@ -37,11 +37,11 @@ Menu:
 
 func getMenu() int {
 	var variant int
-	fmt.Println("Виберіть віріант: ")
 	fmt.Println("1. Створення акаунта")
 	fmt.Println("2. Знайти акаунт")
 	fmt.Println("3. Видалити акаунт")
 	fmt.Println("4. Вихід")
+	fmt.Println("Виберіть віріант: ")
 	fmt.Scanln(&variant)
 	return variant
 }
@@ -87,6 +87,8 @@ func createAccount(vault *account.VaultWithDb) {
 	vault.AddAccount(*myAccount)
 }
 
+// Функція приймала slice любого типу
+// Виводе строкою кожний елемент а останній - Printf додавая :
 func promptData(prompt string) string {
 	fmt.Print(prompt + ": ")
 	var res string
