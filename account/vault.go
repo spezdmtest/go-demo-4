@@ -31,7 +31,7 @@ type VaultWithDb struct {
 
 func NewVault(db Db) *VaultWithDb {
 	file, err := db.Read()
-	if err != nil {
+	if err != nil || len(file) == 0 {
 		return &VaultWithDb{
 			Vault: Vault{
 				Accounts:  []Account{},
