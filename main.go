@@ -10,8 +10,8 @@ import (
 )
 
 func main() {
-	output.PrintError(1)
-	output.PrintError("sd")
+	// output.PrintError(1)
+	// output.PrintError("sd")
 	// 1. Створення акаунта
 	// 2. Знайти акаунт
 	// 3. Видалити акаунт
@@ -21,13 +21,20 @@ func main() {
 	//  vault := account.NewVault(cloud.NewCloudDb("https://a.com"))
 Menu:
 	for {
-		variant := getMenu()
+		variant := promptData([]string{
+			"1. Створення акаунта",
+			"2. Знайти акаунт",
+			"3. Видалити акаунт",
+			"4. Вихід",
+			"Виберіть віріант",
+		})
+
 		switch variant {
-		case 1:
+		case "1":
 			createAccount(vault)
-		case 2:
+		case "2":
 			findAccount(vault)
-		case 3:
+		case "3":
 			deleteAccount(vault)
 		default:
 			break Menu
@@ -35,22 +42,11 @@ Menu:
 	}
 }
 
-func getMenu() int {
-	var variant int
-	fmt.Println("1. Створення акаунта")
-	fmt.Println("2. Знайти акаунт")
-	fmt.Println("3. Видалити акаунт")
-	fmt.Println("4. Вихід")
-	fmt.Println("Виберіть віріант: ")
-	fmt.Scanln(&variant)
-	return variant
-}
-
 func findAccount(vault *account.VaultWithDb) {
 	// URL
 	// Пошук
 	// Вивід
-	url := promptData("Введіть url для пошуку")
+	url := promptData([]string{"Введіть url для пошуку"})
 	accounts := vault.FindAccountsByUrl(url)
 	if len(accounts) == 0 {
 		color.Red("Акаунтів не знайдено")
@@ -64,7 +60,7 @@ func deleteAccount(vault *account.VaultWithDb) {
 	// URL
 	// Метод видалення у Vault
 	// Вивід видалено чи ні
-	url := promptData("Введіть url для видалення")
+	url := promptData([]string{"Введіть url для видалення"})
 	isDeleted := vault.DeleteAccountByUrl(url)
 	if isDeleted {
 		color.Green("Акаунт успішно видалено")
@@ -75,13 +71,14 @@ func deleteAccount(vault *account.VaultWithDb) {
 
 func createAccount(vault *account.VaultWithDb) {
 	// files.ReadFile()
-	login := promptData("Введіть логін")
-	password := promptData("Введіть пароль")
-	url := promptData("Введіть url")
+	login := promptData([]string{"Введіть логін"})
+	password := promptData([]string{"Введіть пароль"})
+	url := promptData([]string{"Введіть url"})
 	myAccount, err := account.NewAccount(login, password, url)
 	if err != nil {
 		output.PrintError("Невірний формат URL або Login")
 		return
+
 	}
 	vault = account.NewVault(files.NewJsonDb("data.json"))
 	vault.AddAccount(*myAccount)
@@ -89,8 +86,14 @@ func createAccount(vault *account.VaultWithDb) {
 
 // Функція приймала slice любого типу
 // Виводе строкою кожний елемент а останній - Printf додавая :
-func promptData(prompt string) string {
-	fmt.Print(prompt + ": ")
+func promptData[T any](prompt []T) string {
+	for i, line := range prompt {
+		if i == len(prompt)-1 {
+			fmt.Printf("%v: ", line)
+		} else {
+			fmt.Println(line)
+		}
+	}
 	var res string
 	fmt.Scanln(&res)
 	return res
