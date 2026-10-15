@@ -30,13 +30,15 @@ func (db *JsonDb) Read() ([]byte, error) {
 func (db *JsonDb) Write(content []byte) {
 	file, err := os.Create(db.filename)
 	if err != nil {
-		output.PrintError(err)
-		_, err = file.Write(content)
-		defer file.Close()
-		if err != nil {
-			output.PrintError(err)
-			return
-		}
-		color.Green("Запис вдалий!!!")
+		output.PrintError("Помилка при створенні файлу: " + err.Error())
+		return
 	}
+	defer file.Close()
+
+	_, err = file.Write(content)
+	if err != nil {
+		output.PrintError("Помилка при записі у файл: " + err.Error())
+	}
+
+	color.Green("Запис вдалий!!!")
 }
