@@ -10,7 +10,7 @@ import (
 )
 
 func main() {
-	output.PrintError(1)
+	// 	output.PrintError(1)
 	// output.PrintError("sd")
 	// output.PrintError("test")
 	// 1. Створення акаунта
