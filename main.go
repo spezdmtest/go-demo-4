@@ -11,7 +11,7 @@ import (
 
 func main() {
 	output.PrintError(1)
-	// output.PrintError("sd")
+	output.PrintError("sd")
 	// 1. Створення акаунта
 	// 2. Знайти акаунт
 	// 3. Видалити акаунт
