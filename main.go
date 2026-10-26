@@ -17,8 +17,9 @@ var menu = map[string]func(*account.VaultWithDb){
 }
 
 func main() {
-	// output.PrintError(1)
+	// 	output.PrintError(1)
 	// output.PrintError("sd")
+	// output.PrintError("test")
 	// 1. Створення акаунта
 	// 2. Знайти акаунт
 	// 3. Видалити акаунт
