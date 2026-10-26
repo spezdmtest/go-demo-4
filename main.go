@@ -5,6 +5,7 @@ import (
 	"demo/password/files"
 	"demo/password/output"
 	"fmt"
+	"strings"
 
 	"github.com/fatih/color"
 )
@@ -58,7 +59,7 @@ func findAccount(vault *account.VaultWithDb) {
 	// Пошук
 	// Вивід
 	url := promptData([]string{"Введіть url для пошуку"})
-	accounts := vault.FindAccountsByUrl(url)
+	accounts := vault.FindAccounts(url, checkUrl)
 	if len(accounts) == 0 {
 		color.Red("Акаунтів не знайдено")
 	}
@@ -67,6 +68,9 @@ func findAccount(vault *account.VaultWithDb) {
 	}
 }
 
+func checkUrl(acc account.Account, str string) bool {
+	return strings.Contains(acc.Url, str)
+}
 func deleteAccount(vault *account.VaultWithDb) {
 	// URL
 	// Метод видалення у Vault
